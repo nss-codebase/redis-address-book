@@ -30,6 +30,7 @@ module.exports = function(app, express){
   app.post('/register', users.create);
   app.get('/login', users.login);
   app.post('/login', users.authenticate);
+  app.delete('/logout', users.logout);
 
   console.log('Express: Routes Loaded');
 };
