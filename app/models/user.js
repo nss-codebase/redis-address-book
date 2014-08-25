@@ -10,15 +10,20 @@ Object.defineProperty(User, 'collection', {
 });
 
 User.register = function(o, cb){
-  User.collection.findOne({email:o.email}, function(err, obj){
-    if(obj){return cb();}
+  User.collection.findOne({email:o.email}, function(err, user){
+    if(user){return cb();}
     o.password = bcrypt.hashSync(o.password, 10);
     User.collection.save(o, cb);
   });
 };
 
-User.all = function(cb){
-  User.collection.find().toArray(cb);
+User.authenticate = function(o, cb){
+  User.collection.findOne({email:o.email}, function(err, user){
+    if(!user){return cb();}
+    var isOk = bcrypt.compareSync(o.password, user.password);
+    if(!isOk){return cb();}
+    cb(user);
+  });
 };
 
 module.exports = User;
