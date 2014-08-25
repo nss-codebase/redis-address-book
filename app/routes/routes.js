@@ -6,6 +6,7 @@ var morgan         = require('morgan'),
     less           = require('less-middleware'),
     session        = require('express-session'),
     RedisStore     = require('connect-redis')(session),
+    security       = require('../lib/security'),
     home           = require('../controllers/home'),
     users          = require('../controllers/users');
 
@@ -22,6 +23,7 @@ module.exports = function(app, express){
     cookie:{maxAge:null}
   }));
 
+  app.use(security.authenticate);
   app.get('/', home.index);
 
   app.get('/register', users.new);
