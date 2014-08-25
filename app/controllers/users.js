@@ -7,7 +7,7 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){
-  User.register(req.body, function(user){
+  User.register(req.body, function(err, user){
     if(user){
       res.redirect('/');
     }else{
